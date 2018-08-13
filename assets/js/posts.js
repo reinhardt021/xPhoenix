@@ -5,12 +5,13 @@
     // TODO: ajax call for GET /api/posts
 
     document.getElementById("post-board").addEventListener('click', function (event) {
-        var x = 0;
-        var y = 0;
+        var x = event.pageX;
+        var y = event.pageY;
 
-        console.log('X and Y coordinates of the mouse');
-
-        event.target.textContent = "click count: " + event.detail;
+        console.log('Mouse Page Coordinates = X ' + x +
+        ' & Y ' + y);
+        // console.log('event: ',  event);
+        // event.target.textContent = "click count: " + event.detail;
     }, false);
 
     // TODO: click on empty space on board should create a new div
