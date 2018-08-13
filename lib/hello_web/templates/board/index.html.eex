@@ -1,0 +1,12 @@
+<div class="jumbotron">
+  <h2><%= gettext "Welcome to %{name}!", name: "Phoenix 2.0" %></h2>
+  <p class="lead">Not your average Framework<br />We rise from the ashes.</p>
+</div>
+<!-- Note: @postIts is an array that you will have to loop through -->
+<div class="jumbotron">
+    <h2>Hello World, from <%= @postIts %>!</h2>
+</div>
+<!--
+    TODO: grab the post its using an API
+    then load them dynamically on the page
+ -->
