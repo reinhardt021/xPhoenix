@@ -9,28 +9,25 @@
 
     document.getElementById(boardID).addEventListener('click', function (event) {
         var newPost = document.createElement('div');
+        var postText = document.createElement('p');
         var postContent = document.createTextNode('Edit Me!');
-        newPost.appendChild(postContent);
+        postText.appendChild(postContent);
+        newPost.appendChild(postText);
         newPost.setAttribute('class', 'a-post');
 
+        // https://stackoverflow.com/questions/7790725/javascript-track-mouse-position
         var positionX = event.pageX;
         var positionY = event.pageY;
-        // console.log('Mouse Page Coordinates = X ' + x + ' & Y ' + y);
+        
         newPost.style.position = 'absolute';
         newPost.style.left = positionX + 'px';
         newPost.style.top = positionY + 'px';
 
         var board = document.getElementById(boardID);
         board.appendChild(newPost);
+        // new div will be default size: 130px by 80px to keep golden ratio
 
-        // console.log('event: ',  event);
-        // event.target.textContent = "click count: " + event.detail;
-        // https://stackoverflow.com/questions/7790725/javascript-track-mouse-position
+        // TODO: click and drag to create text boxes of a specific size and location
     }, false);
 
-    // TODO: click on empty space on board should create a new div
-    // new div will be default paragraph tag
-    // new div will be default size
-    // find post it ratio - golden rectangle? 2 by 3  or 3 by 5 - base 10||100 px?
-    // with top left corner on the point where the mouse is
 })();
