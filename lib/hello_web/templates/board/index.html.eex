@@ -4,9 +4,9 @@
 </div> -->
 
 <!-- Note: @postIts is an array that you will have to loop through -->
-<div class="jumbotron">
+<!-- <div class="jumbotron">
     <h2>Hello World, from <%= @postIts %>!</h2>
-</div>
+</div> -->
 <!--
     TODO: grab the post its using an API
     then load them dynamically on the page

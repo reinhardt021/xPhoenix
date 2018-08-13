@@ -7,12 +7,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Hello!</title>
+    <title>Post Board!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container">
+    <div>
+    <!-- <div class="container"> -->
       <!-- <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
