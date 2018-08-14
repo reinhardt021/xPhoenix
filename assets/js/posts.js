@@ -1,9 +1,9 @@
 (function () {
     // TODO: ajax call for GET /api/posts
 
-    // TODO: create text toolbar to edit the text in the boxes
-    // bold + italix + H1 H2 H3 H4 P + bullet point +
     // TODO: Create sidebar with diff headers
+    // TODO: create left side text toolbar to edit the text in the boxes
+    // bold + italix + H1 H2 H3 H4 P + bullet point +
 
     var boardID = 'post-board';
     var theBoard = document.getElementById(boardID);
@@ -17,14 +17,22 @@
         return newPost;
     }
 
-    function _createBasicPost() {
+    function _createBasicPost(postOriginX, postOriginY, width, height) {
         var newPost = document.createElement('div');
+
+        newPost.style.position = 'absolute';
+        newPost.style.left = postOriginX + 'px';
+        newPost.style.top = postOriginY + 'px';
+
+        newPost.style.width = width + 'px';
+        newPost.style.height = height + 'px';
+
         _addPostAttributes(newPost);
 
         return newPost;
     }
 
-    function _createDeleteButton(newPost) {
+    function _addDeleteButton(newPost) {
         var deleteClasses = ['delete', 'is-pulled-right'];
         var deleteButton = document.createElement('a');
         deleteButton.setAttribute('class', deleteClasses.join(' '));
@@ -33,7 +41,7 @@
         return deleteButton;
     }
 
-    function _createDefaultPostContent(newPost) {
+    function _addDefaultPostContent(newPost) {
         var postContent = document.createElement('p');
         var postText = document.createTextNode('Edit Me!');
         postContent.appendChild(postText);
@@ -69,8 +77,8 @@
     }
 
     function _fillPost(newPost) {
-        _createDeleteButton(newPost);
-        _createDefaultPostContent(newPost);
+        _addDeleteButton(newPost);
+        _addDefaultPostContent(newPost);
         _addPostEvents(newPost);
 
         return newPost;
@@ -79,36 +87,26 @@
     theBoard.addEventListener('mousedown', function (e) {
         e.preventDefault();
         console.log('>>> board mousedown');
-        var newPost = _createBasicPost();
 
         // https://stackoverflow.com/questions/7790725/javascript-track-mouse-position
         var postOriginX = e.pageX;
         var postOriginY = e.pageY;
-        newPost.style.position = 'absolute';
-        newPost.style.left = postOriginX + 'px';
-        newPost.style.top = postOriginY + 'px';
-
-        var height = 80;
-        var width = 130;
-        newPost.style.height = height + 'px';
-        newPost.style.width = width + 'px';
-        // TODO: click and drag to create text boxes of a specific size and location
-
+        var width = 0;//130;
+        var height = 0;//80;
+        var newPost = _createBasicPost(postOriginX, postOriginY, width, height);
         theBoard.appendChild(newPost);
 
         theBoard.onmousemove = function(e) {
             e.preventDefault();
             console.log('>>> board moving');
 
-            // TODO: delete and create new post in order to get proper dimensions
+            width = e.pageX - postOriginX;
+            height = e.pageY - postOriginY;
+            newPost = _createBasicPost(postOriginX, postOriginY, width, height);
 
-            var postWidth = e.pageX - postOriginX;
-            var postHeight = e.pageY - postOriginY;
-            console.log('>>> board X = ' + e.pageX + ' >> width = ' + postWidth);
-            console.log('>>> board Y = ' + e.pageY + ' >> height = ' + postHeight);
-            newPost.style.width = postWidth;
-            newPost.style.height = postHeight;
-            
+            // TODO: delete old post before attaching this new one
+            // todo - search: JS how to remove element
+
             theBoard.appendChild(newPost);
         };
 
