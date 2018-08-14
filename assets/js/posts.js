@@ -35,6 +35,9 @@
     function _addDeleteButton(newPost) {
         var deleteClasses = ['delete', 'is-pulled-right'];
         var deleteButton = document.createElement('a');
+        deleteButton.addEventListener('click', function (e) {
+            newPost.remove();
+        }, false);
         deleteButton.setAttribute('class', deleteClasses.join(' '));
         newPost.appendChild(deleteButton);
 
@@ -91,8 +94,8 @@
         // https://stackoverflow.com/questions/7790725/javascript-track-mouse-position
         var postOriginX = e.pageX;
         var postOriginY = e.pageY;
-        var width = 0;//130;
-        var height = 0;//80;
+        var width = 130; // default
+        var height = 80; // default
         var newPost = _createBasicPost(postOriginX, postOriginY, width, height);
         theBoard.appendChild(newPost);
 
@@ -102,6 +105,7 @@
 
             width = e.pageX - postOriginX;
             height = e.pageY - postOriginY;
+            newPost.remove();
             newPost = _createBasicPost(postOriginX, postOriginY, width, height);
 
             // TODO: delete old post before attaching this new one
