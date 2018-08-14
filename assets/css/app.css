@@ -15,8 +15,9 @@
 }
 
 .a-post {
-    width: 130px;
-    height: 80px;
-
     background-color: white;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -khtml-border-radius: 10px;
 }

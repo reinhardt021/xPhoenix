@@ -12,5 +12,7 @@
     then load them dynamically on the page
  -->
 <div id="post-board">
-    BOARD
+    <div class="section">
+        BOARD
+    </div>
 </div>

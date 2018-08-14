@@ -19,6 +19,10 @@
         newPost.style.position = 'absolute';
         newPost.style.left = positionX + 'px';
         newPost.style.top = positionY + 'px';
+        var height = 80;
+        var width = 130;
+        newPost.style.height = height + 'px';
+        newPost.style.width = width + 'px';
 
         newPost.addEventListener('click', function (event) {
             console.log('>>> clicked on a post and will stop propagation');
