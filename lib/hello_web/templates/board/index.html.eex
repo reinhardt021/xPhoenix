@@ -13,6 +13,10 @@
  -->
 <div id="post-board">
     <div class="section">
-        BOARD
+        <div class="container">
+            <h1 class="title">BOARD</h1>
+            <h2 class="subtitle">A Brief Map Of Mind</h2>
+        </div>
     </div>
+    <!-- This is where the new Posts go -->
 </div>
