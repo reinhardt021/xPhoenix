@@ -8,30 +8,7 @@
     var boardID = 'post-board';
     var theBoard = document.getElementById(boardID);
 
-    function _createDeleteButton() {
-        var deleteButton = document.createElement('a');
-        var deleteClasses = [
-            'delete',
-            'is-pulled-right'
-        ];
-        deleteButton.setAttribute('class', deleteClasses.join(' '));
-
-        return deleteButton;
-    }
-
-    function _createDefaultPostContent() {
-        var postContent = document.createElement('p');
-        var postText = document.createTextNode('Edit Me!');
-        postContent.appendChild(postText);
-
-        return postContent;
-    }
-
-    function _createBasicPost() {
-        var newPost = document.createElement('div');
-        newPost.appendChild(_createDeleteButton());
-        newPost.appendChild(_createDefaultPostContent());
-
+    function _addPostAttributes(newPost) {
         var postClasses = ['a-post', 'box'];
         newPost.setAttribute('class', postClasses.join(' '));
         // newPost.setAttribute('contenteditable', true); //TODO: turn on later
@@ -40,7 +17,33 @@
         return newPost;
     }
 
+    function _createBasicPost() {
+        var newPost = document.createElement('div');
+        _addPostAttributes(newPost);
+
+        return newPost;
+    }
+
+    function _createDeleteButton(newPost) {
+        var deleteClasses = ['delete', 'is-pulled-right'];
+        var deleteButton = document.createElement('a');
+        deleteButton.setAttribute('class', deleteClasses.join(' '));
+        newPost.appendChild(deleteButton);
+
+        return deleteButton;
+    }
+
+    function _createDefaultPostContent(newPost) {
+        var postContent = document.createElement('p');
+        var postText = document.createTextNode('Edit Me!');
+        postContent.appendChild(postText);
+        newPost.appendChild(postContent);
+
+        return postContent;
+    }
+
     function _addPostEvents(newPost) {
+        // Mouse down event for Post
         newPost.addEventListener('mousedown', function (e) {
             e.stopPropagation();
             e.preventDefault();
@@ -65,10 +68,17 @@
         return newPost;
     }
 
+    function _fillPost(newPost) {
+        _createDeleteButton(newPost);
+        _createDefaultPostContent(newPost);
+        _addPostEvents(newPost);
+
+        return newPost;
+    }
+
     theBoard.addEventListener('mousedown', function (e) {
         e.preventDefault();
         console.log('>>> board mousedown');
-
         var newPost = _createBasicPost();
 
         // https://stackoverflow.com/questions/7790725/javascript-track-mouse-position
@@ -84,9 +94,6 @@
         newPost.style.width = width + 'px';
         // TODO: click and drag to create text boxes of a specific size and location
 
-        // Mouse down event for Post
-        _addPostEvents(newPost)
-
         theBoard.appendChild(newPost);
 
         theBoard.onmousemove = function(e) {
@@ -94,19 +101,21 @@
             console.log('>>> board moving');
 
             // TODO: delete and create new post in order to get proper dimensions
-            
+
             var postWidth = e.pageX - postOriginX;
             var postHeight = e.pageY - postOriginY;
             console.log('>>> board X = ' + e.pageX + ' >> width = ' + postWidth);
             console.log('>>> board Y = ' + e.pageY + ' >> height = ' + postHeight);
             newPost.style.width = postWidth;
             newPost.style.height = postHeight;
+            
             theBoard.appendChild(newPost);
         };
 
         theBoard.onmouseup = function() {
             e.stopPropagation();
             theBoard.onmousemove = null;
+            _fillPost(newPost);
             console.log('>>> board mouse up');
         };
     }, false);
