@@ -11,8 +11,6 @@
     function _addPostAttributes(newPost) {
         var postClasses = ['a-post', 'box'];
         newPost.setAttribute('class', postClasses.join(' '));
-        // newPost.setAttribute('contenteditable', true); //TODO: turn on later
-        // TODO: unfocus to save Post text
 
         return newPost;
     }
@@ -60,21 +58,36 @@
             e.preventDefault();
             console.log('>>> post mousedown');
 
-            newPost.onmousemove = function(e) {
+            // TODO: figure out how to resize the posts
+            // todo - add gradient to bottom right corner
+
+            // TODO: investigate lag bug that fills post multiple times
+            // might have to rethink the whole logic here
+            // console.log('>>> newPost.getBoundingClientRect() ', newPost.getBoundingClientRect());
+            var shiftX = e.clientX - newPost.getBoundingClientRect().left;
+            var shiftY = e.clientY - newPost.getBoundingClientRect().top;
+
+            function _moveAt(element, pageX, pageY) {
+                element.style.left = pageX - shiftX + 'px';
+                element.style.top = pageY - shiftY + 'px';
+            }
+
+            function _onMouseMove(e) {
                 e.preventDefault();
-                console.log('>>> post moving');
-                newPost.style.left = e.pageX;
-                newPost.style.top = e.pageY;
-                //NOTE: this doesn't work unless you are above the post
-            };
+                _moveAt(newPost, e.pageX, e.pageY);
+            }
+
+            newPost.addEventListener('mousemove', _onMouseMove);
 
             newPost.onmouseup = function(e) {
                 e.stopPropagation();
-                newPost.onmousemove = null;
+                newPost.removeEventListener('mousemove', _onMouseMove);
+                newPost.onmouseup = null;
                 console.log('>>> post mouse up');
-                //NOTE: this doesn't work unless you are above the post
             };
         }, false);
+
+        newPost.ondragstart = function() { return false; };
 
         return newPost;
     }
@@ -91,7 +104,6 @@
         e.preventDefault();
         console.log('>>> board mousedown');
 
-        // https://stackoverflow.com/questions/7790725/javascript-track-mouse-position
         var postOriginX = e.pageX;
         var postOriginY = e.pageY;
         var width = 130; // default
@@ -106,15 +118,13 @@
             width = e.pageX - postOriginX;
             height = e.pageY - postOriginY;
             newPost.remove();
+            // TODO: if width or height is negative then get absolute value
+            // and flip the origin to origin - width
             newPost = _createBasicPost(postOriginX, postOriginY, width, height);
-
-            // TODO: delete old post before attaching this new one
-            // todo - search: JS how to remove element
-
             theBoard.appendChild(newPost);
         };
 
-        theBoard.onmouseup = function() {
+        theBoard.onmouseup = function(e) {
             e.stopPropagation();
             theBoard.onmousemove = null;
             _fillPost(newPost);
